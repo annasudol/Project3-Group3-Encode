@@ -4,53 +4,48 @@ pragma solidity ^0.8.9;
 import "./Vote.sol";
 interface IMyToken {
     function getPastVotes(address account, uint256 blockNumber) external returns(uint256);
+    function delegate(address delegatee) external;
 }
-contract Ballot {
+contract TokenizedBallot {
     IMyToken public voteToken;
     uint256 targetBlockNumber;
-    // This is a type for a single proposal.
+
     struct Proposal {
         bytes32 name;   // short name (up to 32 bytes)
         uint voteCount; // number of accumulated votes
     }
     mapping(address => uint256) spentVotePower;
 
-    // A dynamically-sized array of `Proposal` structs.
     Proposal[] public proposals;
 
-    /// Create a new ballot to choose one of `proposalNames`.
     constructor(bytes32[] memory proposalNames, address voteTokenAddress, uint256 _targetBlockNumber) {
         targetBlockNumber = _targetBlockNumber;
         voteToken = IMyToken(voteTokenAddress);
-        // For each of the provided proposal names,
-        // create a new proposal object and add it
-        // to the end of the array.
         for (uint i = 0; i < proposalNames.length; i++) {
-            // `Proposal({...})` creates a temporary
-            // Proposal object and `proposals.push(...)`
-            // appends it to the end of `proposals`.
             proposals.push(Proposal({
                 name: proposalNames[i],
                 voteCount: 0
             }));
         }
     }
-
-    function votePower(address account) public returns (uint256) {
-        return voteToken.getPastVotes(account, targetBlockNumber) - spentVotePower[msg.sender];
-    }
-
-    /// Give your vote (including votes delegated to you)
-    /// to proposal `proposals[proposal].name`.
     function vote(uint proposal, uint256 amount) external {
         require(votePower(msg.sender) >= amount, "Not enought voting power");
         proposals[proposal].voteCount += amount;
         spentVotePower[msg.sender] += amount;
-        //increate the spend voting power
     }
 
-    /// @dev Computes the winning proposal taking all
-    /// previous votes into account.
+    function delegateVote(uint256 amount, address to) external {
+        require(votePower(msg.sender) >= amount, "Not enought voting power");
+        return voteToken.delegate(to);
+    }
+    function giveVotingPower(address to) external {
+        uint256 votingPower = votePower(msg.sender);
+        if(votingPower > 0) {
+            spentVotePower[to] = spentVotePower[msg.sender];
+            return voteToken.delegate(to);
+        }
+    }
+
     function winningProposal() public view
             returns (uint winningProposal_)
     {
@@ -63,12 +58,15 @@ contract Ballot {
         }
     }
 
-    // Calls winningProposal() function to get the index
-    // of the winner contained in the proposals array and then
-    // returns the name of the winner
     function winnerName() external view
             returns (bytes32 winnerName_)
     {
         winnerName_ = proposals[winningProposal()].name;
     }
+
+
+    function votePower(address account) public returns (uint256) {
+        return voteToken.getPastVotes(account, targetBlockNumber) - spentVotePower[msg.sender];
+    }
+
 }

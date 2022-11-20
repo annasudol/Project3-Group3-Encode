@@ -11,3 +11,6 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.ts
 ```
+
+Vote token 0x5D2207Ef9DaAE1ad7781D4F126f7F8BE29A9bBd5
+https://goerli.etherscan.io/address/0x5D2207Ef9DaAE1ad7781D4F126f7F8BE29A9bBd5#readContract

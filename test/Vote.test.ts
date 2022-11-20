@@ -50,7 +50,7 @@ describe("Vote", function () {
             let currentBlock = await voteToken.provider.getBlock('latest');
             for (let i = currentBlock.number - 1; i >= 0; i--) {
                 let votePower = await voteToken.getPastVotes(owner.address, i);
-                console.log(votePower)
+                // console.log(votePower, i)
             }
         });
     });
