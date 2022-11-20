@@ -4,3 +4,7 @@ Script files for "TokenizedBallot.sol" that give voting tokens, delegate voting 
 Vote token 0x5D2207Ef9DaAE1ad7781D4F126f7F8BE29A9bBd5
 https://goerli.etherscan.io/address/0x5D2207Ef9DaAE1ad7781D4F126f7F8BE29A9bBd5#readContract
 
+ETHERSCAN_API_KEY = ''
+ALCHEMY_PROJECT_ID = ''
+MNEMONIC = ''
+PRIVATE_KEY=''
