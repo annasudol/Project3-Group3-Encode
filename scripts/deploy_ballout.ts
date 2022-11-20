@@ -7,8 +7,8 @@ async function main() {
     console.log(`TokenizedBallot with 1 deployed to ${contract.address}`);
     const [account0, account1] = await ethers.getSigners();
 
-    const vp = await contract.votePower(account0.address);
-    console.log(vp)
+    // const vp = await contract.vote(1, 1);
+    console.log(contract)
 };
 main().catch((error) => {
     console.error(error);

@@ -19,19 +19,8 @@ describe("TokenizedBallot", function () {
     });
     describe('vote', function () {
         it('complete transaction', async () => {
-            const tx = await voteToken.votePower(owner.address);
-            console.log(voteToken, "tx")
-
-            // let voting_balance = await voteToken.getVotes(owner.address);
-            // expect(voting_balance).to.be.equal(0);
-            // const minting_val = 100;
-            // const tx = await voteToken.mint(owner.address, minting_val);
-
-            // await expect(tx).to.emit(voteToken, "Transfer").withArgs(zero_address, owner.address, minting_val);
-            // voting_balance = await voteToken.getVotes(owner.address);
-            // expect(voting_balance).to.be.equal(0);
+            const tx = await voteToken.vote(1, 1);
+            console.log(tx, "tx")
         });
     });
-
-
 });
