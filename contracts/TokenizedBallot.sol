@@ -1,13 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
-/// @title Voting with delegation.
 import "./Vote.sol";
-interface IMyToken {
-    function getPastVotes(address account, uint256 blockNumber) external returns(uint256);
-    function delegate(address delegatee) external;
-}
+
 contract TokenizedBallot {
-    IMyToken public voteToken;
+    Vote public voteToken;
     uint256 targetBlockNumber;
 
     struct Proposal {
@@ -20,7 +16,7 @@ contract TokenizedBallot {
 
     constructor(bytes32[] memory proposalNames, address voteTokenAddress, uint256 _targetBlockNumber) {
         targetBlockNumber = _targetBlockNumber;
-        voteToken = IMyToken(voteTokenAddress);
+        voteToken = Vote(voteTokenAddress);
         for (uint i = 0; i < proposalNames.length; i++) {
             proposals.push(Proposal({
                 name: proposalNames[i],
@@ -65,7 +61,7 @@ contract TokenizedBallot {
     }
 
 
-    function votePower(address account) public returns (uint256) {
+    function votePower(address account) public view returns (uint256) {
         return voteToken.getPastVotes(account, targetBlockNumber) - spentVotePower[msg.sender];
     }
 

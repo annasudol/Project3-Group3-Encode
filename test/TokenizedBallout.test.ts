@@ -12,15 +12,15 @@ describe("TokenizedBallot", function () {
 
     beforeEach(async function () {
         const contract = await ethers.getContractFactory("TokenizedBallot");
-        voteToken = await contract.deploy([ethers.utils.formatBytes32String('test1')], '0x5D2207Ef9DaAE1ad7781D4F126f7F8BE29A9bBd5', 10);
+        voteToken = await contract.deploy([ethers.utils.formatBytes32String('test1')], '0x5D2207Ef9DaAE1ad7781D4F126f7F8BE29A9bBd5', 1);
         [owner, account1] = await ethers.getSigners();
 
 
     });
     describe('vote', function () {
         it('complete transaction', async () => {
-            const tx = await voteToken.vote(1, 1);
-            console.log(tx, "tx")
+            // const tx = await voteToken.votePower(owner.address);
+            console.log(voteToken, "tx")
         });
     });
 });
