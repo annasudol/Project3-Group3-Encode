@@ -48,9 +48,10 @@ describe("Vote", function () {
             console.log(voting_balance, 'voting_balance')
             expect(voting_balance).to.be.equal(90);
             let currentBlock = await voteToken.provider.getBlock('latest');
+            const values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 100];
             for (let i = currentBlock.number - 1; i >= 0; i--) {
                 let votePower = await voteToken.getPastVotes(owner.address, i);
-                // console.log(votePower, i)
+                expect(votePower).to.equal(values[i])
             }
         });
     });

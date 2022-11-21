@@ -27,8 +27,8 @@ async function main() {
     console.log(
         `The TokenizedBallot contract was deployed at the address ${ballotContract.address}`
     );
-    const vp = await ballotContract.votePower(signer.address, { gasLimit: 10 ** 5 });
-    console.log(vp, "xp")
+    //     const vp = await ballotContract.votePower(signer.address);
+    //     console.log(vp, "xp")
 }
 
 main().catch((error) => {
