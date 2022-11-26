@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 import "./Vote.sol";
+interface IMyToken {
+    function getPastVotes(address account, uint256 blockNumber) external view returns (uint256);
+    function delegate(address delegatee) external;
+}
 
 contract TokenizedBallot {
-    Vote public voteToken;
+    IMyToken public voteToken;
     uint256 targetBlockNumber;
 
     struct Proposal {
@@ -13,10 +17,11 @@ contract TokenizedBallot {
     mapping(address => uint256) spentVotePower;
 
     Proposal[] public proposals;
+    constructor() {}
 
-    constructor(bytes32[] memory proposalNames, address voteTokenAddress, uint256 _targetBlockNumber) {
+    function addProposal(bytes32[] memory proposalNames, address voteTokenAddress, uint256 _targetBlockNumber) public {
         targetBlockNumber = _targetBlockNumber;
-        voteToken = Vote(voteTokenAddress);
+        voteToken = IMyToken(voteTokenAddress);
         for (uint i = 0; i < proposalNames.length; i++) {
             proposals.push(Proposal({
                 name: proposalNames[i],
@@ -42,9 +47,7 @@ contract TokenizedBallot {
         }
     }
 
-    function winningProposal() public view
-            returns (uint winningProposal_)
-    {
+    function winningProposal() public view returns (uint winningProposal_){
         uint winningVoteCount = 0;
         for (uint p = 0; p < proposals.length; p++) {
             if (proposals[p].voteCount > winningVoteCount) {
@@ -54,9 +57,7 @@ contract TokenizedBallot {
         }
     }
 
-    function winnerName() external view
-            returns (bytes32 winnerName_)
-    {
+    function winnerName() external view returns (bytes32 winnerName_){
         winnerName_ = proposals[winningProposal()].name;
     }
 
