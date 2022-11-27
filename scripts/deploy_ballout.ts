@@ -2,12 +2,12 @@ import { ethers } from "hardhat";
 
 import * as dotenv from "dotenv";
 dotenv.config();
-const VOTE_CONTRACT = '0x0131bB54fB52A2eF0ba27411aF3e9AC87105b2e6';
-const lastBlockNumber = 8026377;
+const VOTE_CONTRACT = '0x6E3Ec7bD445F25Bf7Da411BAdd4Dac56A4E4Eaaf';
+const lastBlockNumber = 8030034;
 async function main() {
     const proposals = ['voting 1', 'voting 2', 'voting 3'];
 
-    const TokenizedBallot = await ethers.getContractFactory("TokenizedBallot");
+    const TokenizedBallot = await ethers.getContractFactory("Ballot");
     const ballotContract = await TokenizedBallot.deploy(proposals.map(prop => ethers.utils.formatBytes32String(prop)), VOTE_CONTRACT, lastBlockNumber);
 
     console.log("Deploying TokenizedBallot contract");
@@ -15,20 +15,14 @@ async function main() {
     console.log(
         `The TokenizedBallot contract was deployed at the address ${ballotContract.address}`
     );
-    const [a0, _a1, a2] = await ethers.getSigners();
+    const [a0, a1, a2] = await ethers.getSigners();
     //vote proposal 1
-    const v_0 = await ballotContract.vote(1, 1);
+    const v_0 = await ballotContract.vote(1, 2);
     v_0.wait();
-    // //vote proposal 1
 
-    //give voting power
-    // const gvp = await ballotContract.giveVotingPower(a2.address);
-    // gvp.wait();
 
-    // //vote proposal 2
-    // const v_2 = await ballotContract.connect(a2).vote(2, 1);
-    // v_2.wait();
-    // console.log(a0.address, "xp")
+    const v_2 = await ballotContract.connect(a1).vote(2, 1);
+    v_2.wait();
 
     const winner = await ballotContract.winnerName();
     console.log(

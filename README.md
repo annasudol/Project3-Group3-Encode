@@ -5,8 +5,8 @@ Script files for "TokenizedBallot.sol" that give voting tokens, delegate voting 
 
 - `MyToken.sol` Deployed on [goerli](https://goerli.etherscan.io/address/0x6E3Ec7bD445F25Bf7Da411BAdd4Dac56A4E4Eaaf#readContract)
 
-### contract Vote 0x64D29e387Ca0191D12E8c6B2f28bcb9E97686E04
+### contract Vote 0xA5a68F4a956D366711321FB3642cF100bD34018C
 
-- `Vote` Deployed on [goerli](https://goerli.etherscan.io/address/0x64D29e387Ca0191D12E8c6B2f28bcb9E97686E04)
+- `Vote` Deployed on [goerli](https://goerli.etherscan.io/address/0xA5a68F4a956D366711321FB3642cF100bD34018C)
 
-npx hardhat run scripts/deploy_vote.ts --network goerli
+npx hardhat run scripts/deploy_ballout.ts --network goerli

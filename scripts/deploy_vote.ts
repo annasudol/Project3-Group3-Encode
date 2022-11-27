@@ -15,10 +15,7 @@ async function main() {
   const mintTx = await tokenContract.mint(a0.address, TEST_TOKENS);
   mintTx.wait();
   balanceBN = await tokenContract.balanceOf(a0.address)
-  console.log(
-    `After minting balance of the deployer is ${balanceBN}`
-  );
-
+  console.log(`After minting balance of the deployer is ${balanceBN}`);
 }
 
 main().catch((error) => {
